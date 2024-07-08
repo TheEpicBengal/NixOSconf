@@ -95,7 +95,7 @@
       mangohud
       gamemode
       corectrl
-      librewolf
+      floorp
       krita
       mpv
       steam
