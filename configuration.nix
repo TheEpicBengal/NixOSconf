@@ -99,18 +99,19 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+      epson-escpr2
       thunderbird
       keepassxc
       mangohud
       gamemode
       corectrl
       floorp
-      krita
-      mpv
-      steam
-      cups
       yt-dlp
-      epson-escpr2
+      krita
+      steam
+      mpv
+      cups
+     
   ];
 
   programs.nix-ld.enable = true;
