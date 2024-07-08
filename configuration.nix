@@ -43,14 +43,23 @@
   };
 
 
-  #Desktop/Misc Services
+  #Desktop Services
   services.xserver.enable = false;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-  services.printing.enable = true;
   hardware.graphics.enable = true;
   hardware.graphics.enable32Bit = true;
+
+  #Printing
+  services.printing.enable = true;
+  services.avahi = {
+  enable = true;
+  nssmdns = true;
+  openFirewall  = true;
+};
+
+
 
   #Audio Services
   hardware.pulseaudio.enable = false;
@@ -101,6 +110,7 @@
       steam
       cups
       yt-dlp
+      epson-escpr2
   ];
 
   programs.nix-ld.enable = true;
