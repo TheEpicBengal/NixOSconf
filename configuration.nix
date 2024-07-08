@@ -105,7 +105,7 @@
       mangohud
       gamemode
       corectrl
-      floorp
+      opera
       yt-dlp
       krita
       steam
