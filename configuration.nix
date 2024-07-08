@@ -99,13 +99,13 @@
   # List packages installed in system profile. To search, run:
   # $ nix search wget
   environment.systemPackages = with pkgs; [
+      ungoogled-chromium
       epson-escpr2
       thunderbird
       keepassxc
       mangohud
       gamemode
       corectrl
-      opera
       yt-dlp
       krita
       steam
