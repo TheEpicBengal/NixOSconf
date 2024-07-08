@@ -110,7 +110,6 @@
       krita
       steam
       mpv
-      cups
      
   ];
 
