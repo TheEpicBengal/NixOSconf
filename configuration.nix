@@ -106,10 +106,11 @@
       mangohud
       gamemode
       corectrl
-      yt-dlp
       krita
-      steam
+      kcalc
       mpv
+      steam
+      yt-dlp
      
   ];
 
