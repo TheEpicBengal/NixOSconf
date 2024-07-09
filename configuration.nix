@@ -10,6 +10,8 @@
       ./hardware-configuration.nix
     ];
 
+  boot.kernel.sysctl."vm.max_map_count" = 2147483642;
+
   # Bootloader.
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
@@ -48,8 +50,7 @@
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
-  hardware.graphics.enable = true;
-  hardware.graphics.enable32Bit = true;
+
 
   # Printing
   services.printing.enable = true;
@@ -69,15 +70,7 @@
     alsa.enable = true;
     alsa.support32Bit = true;
     pulse.enable = true;
-    # If you want to use JACK applications, uncomment this
-    #jack.enable = true;
-
-
-
-    # use the example session manager (no others are packaged yet so this is enabled by default,
-    # no need to redefine it in your config for now)
-    #media-session.enable = true;
-  };
+};
 
 
 
@@ -102,6 +95,7 @@
       ungoogled-chromium
       epson-escpr2
       thunderbird
+      fastfetch
       keepassxc
       mangohud
       gamemode
@@ -111,7 +105,6 @@
       mpv
       steam
       yt-dlp
-     
   ];
 
   programs.nix-ld.enable = true;
@@ -139,6 +132,12 @@
   # networking.firewall.allowedUDPPorts = [ ... ];
   # Or disable the firewall altogether.
   # networking.firewall.enable = false;
+
+   hardware.opengl = { # this fixes the "glXChooseVisual failed" bug
+     enable = true;
+     driSupport = true;
+     driSupport32Bit = true;
+   };
 
 
   # This value determines the NixOS release from which the default
