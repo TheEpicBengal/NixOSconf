@@ -9,6 +9,7 @@ Why NixOS?
 - Reproducible, I can put my config on my laptop and have all my programs
 - Good drivers for gaming and packages are relatively new
 - Rolling release, stable or both for individual packages
+- One of the biggest package repos on Linux
 
 
 
