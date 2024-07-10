@@ -97,6 +97,7 @@
       thunderbird
       fastfetch
       keepassxc
+      protonup
       mangohud
       gamemode
       corectrl
@@ -106,6 +107,12 @@
       steam
       yt-dlp
   ];
+
+  environment.sessionVariables = {
+    STEAM_EXTRA_COMPAT_TOOLS_PATHS =
+      "/home/user/.steam/root/compatibilitytools.d";
+
+    };
 
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
