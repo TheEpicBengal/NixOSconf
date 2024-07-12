@@ -1,14 +1,13 @@
-# Edit this configuration file to define what should be installed on
-# your system.  Help is available in the configuration.nix(5) man page
-# and in the NixOS manual (accessible by running ‘nixos-help’).
-
 { config, pkgs, ... }:
+
+
 
 {
   imports =
-    [ # Include the results of the hardware scan.
+    [
       ./hardware-configuration.nix
     ];
+
 
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
 
@@ -16,15 +15,11 @@
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
 
-  networking.hostName = "nixos"; # Define your hostname.
-  # networking.wireless.enable = true;  # Enables wireless support via wpa_supplicant.
 
-  # Configure network proxy if necessary
-  # networking.proxy.default = "http://user:password@proxy:port/";
-  # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
-
-  # Enable networking
+  # Networking
   networking.networkmanager.enable = true;
+  networking.hostName = "nixos";
+
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -52,7 +47,8 @@
   services.desktopManager.plasma6.enable = true;
 
 
-  # Printing
+
+  # Printing Services
   services.printing.enable = true;
   services.avahi = {
   enable = true;
@@ -60,21 +56,16 @@
   openFirewall  = true;
 };
 
-
-
   # Audio Services
-  hardware.pulseaudio.enable = false;
-  security.rtkit.enable = true;
-  services.pipewire = {
-    enable = true;
-    alsa.enable = true;
-    alsa.support32Bit = true;
-    pulse.enable = true;
+security.rtkit.enable = false;
+services.pipewire = {
+  enable = true;
+  alsa.enable = true;
+  alsa.support32Bit = true;
+  pulse.enable = true;
 };
 
-
-
-  # Define a user account. Don't forget to set a password with ‘passwd’.
+  # User Settings
   users.users.pc = {
     isNormalUser = true;
     description = "pc";
@@ -85,12 +76,9 @@
   };
 
 
-
-  # Allow unfree packages
   nixpkgs.config.allowUnfree = true;
 
-  # List packages installed in system profile. To search, run:
-  # $ nix search wget
+  # System Packages
   environment.systemPackages = with pkgs; [
       ungoogled-chromium
       epson-escpr2
@@ -101,8 +89,12 @@
       mangohud
       gamemode
       corectrl
+      kdenlive
+      ffmpeg
+      godot_4
       krita
       kcalc
+      tor-browser
       mpv
       steam
       yt-dlp
@@ -117,44 +109,22 @@
   programs.nix-ld.enable = true;
   programs.nix-ld.libraries = with pkgs; [
 
-    # Add any missing dynamic libraries for unpackaged programs
-    # here, NOT in environment.systemPackages
   ];
-
-  # Some programs need SUID wrappers, can be configured further or are
-  # started in user sessions.
-  # programs.mtr.enable = true;
-  # programs.gnupg.agent = {
-  #   enable = true;
-  #   enableSSHSupport = true;
-  # };
-
-  # List services that you want to enable:
 
   # Enable the OpenSSH daemon.
   # services.openssh.enable = true;
 
-  # Open ports in the firewall.
-  # networking.firewall.allowedTCPPorts = [ ... ];
-  # networking.firewall.allowedUDPPorts = [ ... ];
-  # Or disable the firewall altogether.
-  # networking.firewall.enable = false;
-
-   hardware.opengl = { # this fixes the "glXChooseVisual failed" bug
+   hardware.opengl = {
      enable = true;
      driSupport = true;
      driSupport32Bit = true;
    };
 
+  system.stateVersion = "24.05";
 
-  # This value determines the NixOS release from which the default
-  # settings for stateful data, like file locations and database versions
-  # on your system were taken. It‘s perfectly fine and recommended to leave
-  # this value at the release version of the first install of this system.
-  # Before changing this value read the documentation for this option
-  # (e.g. man configuration.nix or on https://nixos.org/nixos/options.html).
-  system.stateVersion = "24.05"; # Did you read the comment?
 
 
 
 }
+
+
