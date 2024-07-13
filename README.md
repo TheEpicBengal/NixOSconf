@@ -11,7 +11,3 @@ Why NixOS?
 - Rolling release, stable or both for individual packages
 - One of the biggest package repos on Linux
 
-
-
-
-<img src="https://github.com/TheEpicBengal/NixOSconf/blob/main/nixOS.png" />
