@@ -97,7 +97,6 @@ services.pipewire = {
       kcalc
       mpv
       git
-      tor
       steam
       yt-dlp
   ];
