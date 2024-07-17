@@ -6,8 +6,8 @@
   imports =
     [
       ./hardware-configuration.nix
+      ./unstable.nix
     ];
-
 
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
 
@@ -19,7 +19,6 @@
   # Networking
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
-
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -46,8 +45,6 @@
   services.displayManager.sddm.enable = true;
   services.desktopManager.plasma6.enable = true;
 
-
-
   # Printing Services
   services.printing.enable = true;
   services.avahi = {
@@ -55,6 +52,7 @@
   nssmdns = true;
   openFirewall  = true;
 };
+
 
   # Audio Services
 security.rtkit.enable = false;
@@ -64,6 +62,7 @@ services.pipewire = {
   alsa.support32Bit = true;
   pulse.enable = true;
 };
+
 
   # User Settings
   users.users.pc = {
@@ -75,14 +74,16 @@ services.pipewire = {
     ];
   };
 
-
   nixpkgs.config.allowUnfree = true;
 
-  # System Packages
+
   environment.systemPackages = with pkgs; [
+      unstable.bisq-desktop
       ungoogled-chromium
-      epson-escpr2
+      android-udev-rules
+      android-tools
       thunderbird
+      tor-browser
       fastfetch
       keepassxc
       protonup
@@ -92,13 +93,16 @@ services.pipewire = {
       kdenlive
       ffmpeg
       godot_4
+      qimgv
       krita
       kcalc
-      tor-browser
       mpv
+      git
+      tor
       steam
       yt-dlp
   ];
+
 
   environment.sessionVariables = {
     STEAM_EXTRA_COMPAT_TOOLS_PATHS =
@@ -122,9 +126,16 @@ services.pipewire = {
 
   system.stateVersion = "24.05";
 
-
-
+  nixpkgs.config = {
+  packageOverrides = pkgs: {
+    unstable = import <nixos-unstable> {
+      config = config.nixpkgs.config;
+    };
+  };
+};
 
 }
+
+
 
 
