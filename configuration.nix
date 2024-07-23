@@ -8,6 +8,7 @@
       ./hardware-configuration.nix
     ];
 
+
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
 
   # Bootloader.
@@ -18,6 +19,9 @@
   # Networking
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
+
+  systemd.packages = [ pkgs.cloudflare-warp ]; # for warp-cli
+  systemd.targets.multi-user.wants = [ "warp-svc.service" ]; # causes warp-svc to be started automatically
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -54,7 +58,6 @@
 
 
   # Audio Services
-security.rtkit.enable = false;
 services.pipewire = {
   enable = true;
   alsa.enable = true;
@@ -77,13 +80,18 @@ services.pipewire = {
 
 
   environment.systemPackages = with pkgs; [
+      kdePackages.partitionmanager
       unstable.bisq-desktop
       ungoogled-chromium
       android-udev-rules
       android-tools
+      pkgs.cloudflare-warp
+      gamescope
+      qbittorrent
       thunderbird
       tor-browser
       fastfetch
+      dolphin-emu
       keepassxc
       protonup
       mangohud
@@ -97,10 +105,15 @@ services.pipewire = {
       kcalc
       mpv
       git
-      steam
       yt-dlp
   ];
 
+  programs.steam = {
+    enable = true;
+    remotePlay.openFirewall = true; # Open ports in the firewall for Steam Remote Play
+    gamescopeSession.enable = true;
+    dedicatedServer.openFirewall = true; # Open ports in the firewall for Source Dedicated Server
+    };
 
   environment.sessionVariables = {
     STEAM_EXTRA_COMPAT_TOOLS_PATHS =
