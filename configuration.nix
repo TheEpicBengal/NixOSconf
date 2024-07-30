@@ -1,27 +1,25 @@
 { config, pkgs, ... }:
 
-
-
 {
   imports =
     [
       ./hardware-configuration.nix
     ];
 
-
+  # Kernel/CPU/GPU
   boot.kernel.sysctl."vm.max_map_count" = 2147483642;
+  powerManagement.cpuFreqGovernor = "performance";
 
-  # Bootloader.
+  # Bootloader
   boot.loader.systemd-boot.enable = true;
   boot.loader.efi.canTouchEfiVariables = true;
-
 
   # Networking
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
-
   systemd.packages = [ pkgs.cloudflare-warp ]; # for warp-cli
   systemd.targets.multi-user.wants = [ "warp-svc.service" ]; # causes warp-svc to be started automatically
+  # services.openssh.enable = true;
 
   # Set your time zone.
   time.timeZone = "America/Chicago";
@@ -42,31 +40,29 @@
   };
 
 
-  # Desktop Services
-  services.xserver.enable = false;
+  # Desktop
+  programs.sway.enable = true;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
-  services.desktopManager.plasma6.enable = true;
+  security.polkit.enable = true;
 
-  # Printing Services
+  # Printing
   services.printing.enable = true;
-  services.avahi = {
-  enable = true;
-  nssmdns = true;
-  openFirewall  = true;
-};
+   services.avahi = {
+   enable = true;
+   nssmdns = true;
+   openFirewall  = true;
+  };
 
+  # Audio
+  security.rtkit.enable = true;
+  services.pipewire.enable = true;
+  services.pipewire.audio.enable = true;
+  services.pipewire.pulse.enable = true;
+  services.pipewire.alsa.enable = true;
+  services.pipewire.wireplumber.enable = true;
 
-  # Audio Services
-services.pipewire = {
-  enable = true;
-  alsa.enable = true;
-  alsa.support32Bit = true;
-  pulse.enable = true;
-};
-
-
-  # User Settings
+  # User
   users.users.pc = {
     isNormalUser = true;
     description = "pc";
@@ -78,14 +74,21 @@ services.pipewire = {
 
   nixpkgs.config.allowUnfree = true;
 
+  # System-Wide Packages
 
-  environment.systemPackages = with pkgs; [
+  environment.systemPackages = with pkgs; [      
+      kdePackages.polkit-kde-agent-1
+      kdePackages.filelight
       kdePackages.partitionmanager
+      kdePackages.breeze-icons
       unstable.bisq-desktop
       ungoogled-chromium
       android-udev-rules
       android-tools
       pkgs.cloudflare-warp
+      rofi-wayland
+      pcmanfm-qt
+      protontricks
       gamescope
       qbittorrent
       thunderbird
@@ -97,11 +100,15 @@ services.pipewire = {
       mangohud
       gamemode
       corectrl
+      firefox
       kdenlive
       ffmpeg
       godot_4
       qimgv
+      p7zip	
       krita
+      htop
+      grim
       kcalc
       mpv
       git
@@ -125,9 +132,6 @@ services.pipewire = {
   programs.nix-ld.libraries = with pkgs; [
 
   ];
-
-  # Enable the OpenSSH daemon.
-  # services.openssh.enable = true;
 
    hardware.opengl = {
      enable = true;
