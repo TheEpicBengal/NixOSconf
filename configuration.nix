@@ -17,8 +17,15 @@
   # Networking
   networking.networkmanager.enable = true;
   networking.hostName = "nixos";
-  systemd.packages = [ pkgs.cloudflare-warp ]; # for warp-cli
-  systemd.targets.multi-user.wants = [ "warp-svc.service" ]; # causes warp-svc to be started automatically
+  networking.nameservers = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+  services.mullvad-vpn.enable = true;
+  services.resolved = {
+   enable = true;
+   dnssec = "true";
+   domains = [ "~." ];
+   fallbackDns = [ "1.1.1.1#one.one.one.one" "1.0.0.1#one.one.one.one" ];
+   dnsovertls = "true";
+};
   # services.openssh.enable = true;
 
   # Set your time zone.
@@ -40,11 +47,11 @@
   };
 
 
-  # Desktop
-  programs.sway.enable = true;
+  # Desktop                 
+  services.xserver.enable = false;
   services.displayManager.sddm.wayland.enable = true;
   services.displayManager.sddm.enable = true;
-  security.polkit.enable = true;
+  services.desktopManager.plasma6.enable = true;
 
   # Printing
   services.printing.enable = true;
@@ -77,17 +84,14 @@
   # System-Wide Packages
 
   environment.systemPackages = with pkgs; [      
-      kdePackages.polkit-kde-agent-1
       kdePackages.filelight
       kdePackages.partitionmanager
-      kdePackages.breeze-icons
       unstable.bisq-desktop
+      mullvad-vpn
       ungoogled-chromium
       android-udev-rules
       android-tools
-      pkgs.cloudflare-warp
-      rofi-wayland
-      pcmanfm-qt
+      discord
       protontricks
       gamescope
       qbittorrent
@@ -105,7 +109,6 @@
       ffmpeg
       godot_4
       qimgv
-      p7zip	
       krita
       htop
       grim
